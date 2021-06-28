@@ -17,20 +17,20 @@ class App extends Component {
     this.setState({ messageList })
     console.log("HELLO", messageList.methods)
     const messageCount = await messageList.methods.messageCount().call()
-    const messages = await messageList.methods.getMessages().call()
-    console.log(messages)
-    var newMessages = []
-    for(var i =0;i<messages[0].length;i++){
-      console.log(messages[0][i])
-      //newMessages.push({sentFrom: messages[0][i], sentTo : messages[1][i], content : messages[3][i], id : messages[4][i]})
-
-    }
-
     this.setState({ messageCount })
+    if(this.state.chatHash != ''){
+      console.log("Chat hash", this.state.chatHash)
+      const messages = await messageList.methods.getMessages("adwaddwdw").call()
+      console.log('Messages', messages)
+   
+
+    
     this.setState({ messages })
   
     console.log("messages", messages)
     console.log("messageCount ", messageCount)
+    }
+    
 
   }
   async updateData() {
@@ -40,15 +40,10 @@ class App extends Component {
     console.log("taskCount ", taskCount)
 
   }
-  async updateMessage(sendValue) {
-
-    this.setState({ toSend :  sendValue})
-    console.log("newText ", this.state.toSend)
-
-  }
+ 
  async addOne() {
  
-    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
+    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend, this.state.chatHash).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
       this.loadBlockchainData()
       console.log(receipt)
       
@@ -57,7 +52,7 @@ class App extends Component {
 }
   constructor(props) {
     super(props)
-    this.state = { account: '' , messageList : undefined, messages : {0: []}, toSend : "", user : '', targetUser : ''}
+    this.state = { account: '' , messageList : undefined, messages : {0: []}, toSend : "", user : '', targetUser : '', chatHash : ''}
   }
 
   render() {
@@ -65,14 +60,15 @@ class App extends Component {
       <div className="container">
         <h1 >Hello, World!</h1>
         <p>Your account: {this.state.account}</p>
-        <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value})}}></input></a>
-        <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value})}}></input></a>
+        <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
+        <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
        
         <p>Amount: {this.state.messageCount}</p>
-        <a onClick={this.addOne.bind(this)}>Click Here</a>
-        {this.state.messages[0].map((message, index)=> (<p>{message}: {this.state.messages[1][index]}</p>))}
+        {this.state.messages[0].map((message, index)=> (<p>{message}: {this.state.messages[2][index]}</p>))}
 
-        <input onChange={(e)=>{this.setState({toSend : e.target.value})}}></input>
+        <input onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
+        <a onClick={this.addOne.bind(this)}>Send Message</a>
+
        
       </div>
     );

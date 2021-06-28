@@ -1,6 +1,6 @@
 
 
-export const MESSAGES_ADDRESS = '0x1b73C60aE68574F49B45deb227bE47A35118ddB6'
+export const MESSAGES_ADDRESS = '0xc30391dB08AF429Ab2D5750578f9A6D4F9D40076'
 export const MESSAGES_ABI = [
     {
       "constant": true,
@@ -44,6 +44,11 @@ export const MESSAGES_ABI = [
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "hashToken",
+          "type": "string"
+        },
+        {
           "internalType": "uint256",
           "name": "id",
           "type": "uint256"
@@ -80,6 +85,11 @@ export const MESSAGES_ABI = [
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "hashToken",
+          "type": "string"
+        },
+        {
           "internalType": "uint256",
           "name": "id",
           "type": "uint256"
@@ -94,17 +104,22 @@ export const MESSAGES_ABI = [
       "inputs": [
         {
           "internalType": "string",
-          "name": "_content",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
           "name": "_sentFrom",
           "type": "string"
         },
         {
           "internalType": "string",
           "name": "_sentTo",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_content",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_hashToken",
           "type": "string"
         }
       ],
@@ -116,7 +131,13 @@ export const MESSAGES_ABI = [
     },
     {
       "constant": true,
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_hashToken",
+          "type": "string"
+        }
+      ],
       "name": "getMessages",
       "outputs": [
         {
