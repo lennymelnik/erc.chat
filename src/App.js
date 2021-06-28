@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { findAllInRenderedTree } from 'react-dom/test-utils'
 import Web3 from 'web3'
 import './App.css'
 import { MESSAGES_ABI, MESSAGES_ADDRESS } from './config'
@@ -6,11 +7,14 @@ import { MESSAGES_ABI, MESSAGES_ADDRESS } from './config'
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
+
+
+   
   }
   
 
   async loadBlockchainData() {
-    const web3 = new Web3("http://localhost:7545")
+    const web3 = new Web3("http://192.168.0.238:7545")
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
     const messageList = new web3.eth.Contract(MESSAGES_ABI, MESSAGES_ADDRESS)
@@ -23,6 +27,7 @@ class App extends Component {
 
     this.setState({ messageCount })
     if(this.state.chatHash != ''){
+      
       var hashCode = [this.state.user,this.state.targetUser]
       hashCode.sort()
       hashCode = hashCode[0] + hashCode[1]
@@ -37,16 +42,12 @@ class App extends Component {
       console.log("messages", messages)
       console.log("messageCount ", messageCount)
     }
+    //setTimeout(function(e){ console.log("E",e) /*this.loadBlockchainData()*/ }, 3000);
+
     
 
   }
-  async updateData() {
-    const taskCount = await this.todoList.methods.getCounter().call()
-    console.log("updating data")
-    this.setState({ taskCount :  taskCount})
-    console.log("taskCount ", taskCount)
-
-  }
+ 
  
  async addOne() {
   var hashCode = [this.state.user,this.state.targetUser]
@@ -54,6 +55,9 @@ class App extends Component {
   hashCode = hashCode[0] + hashCode[1]
     this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
       this.loadBlockchainData()
+      alert("Message sent")
+      document.getElementById('message').value = ''
+      
       console.log(receipt)
       
     })
@@ -71,14 +75,16 @@ class App extends Component {
         <p>Your account: {this.state.account}</p>
         <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
         <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
-       
+
         <p>Total chats: {this.state.messageCount}</p>
         <p>Your chats: {this.state.chatCount}</p>
 
         {this.state.messages[0].map((message, index)=> (<p>{message}: {this.state.messages[2][index]}</p>))}
 
-        <input onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
+        <input id="message" onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
         <a onClick={this.addOne.bind(this)}>Send Message</a>
+        <br/>
+        <a onClick={this.loadBlockchainData.bind(this)}>Refresh</a>
 
        
       </div>

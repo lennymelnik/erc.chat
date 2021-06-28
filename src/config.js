@@ -1,6 +1,6 @@
 
 
-export const MESSAGES_ADDRESS = '0xC02551d1C39B23B13907DF3616f6EA207DeAD2b1'
+export const MESSAGES_ADDRESS = '0x8EbF6Fe4732a4843A268da0CE4592B7C10652B11'
 export const MESSAGES_ABI = [
     {
       "constant": true,
