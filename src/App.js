@@ -99,8 +99,9 @@ class App extends Component {
 
 
       this.setState({ messages: finalData })
-      console.log("messages", messages)
-      console.log("messageCount ", messageCount)
+      var objDiv = document.getElementById("messages");
+      objDiv.scrollTop = objDiv.scrollHeight;
+
     }
     //setTimeout(function(e){ console.log("E",e) /*this.loadBlockchainData()*/ }, 3000);
 
@@ -129,7 +130,6 @@ class App extends Component {
   hashCode = hashCode[0] + hashCode[1]
     this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,encrypted_message, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
       this.loadBlockchainData()
-      alert("Message sent")
       document.getElementById('message').value = ''
       
       console.log(receipt)
@@ -167,7 +167,7 @@ class App extends Component {
 
         <p>Total chats: {this.state.messageCount}</p>
         <p>Your chats: {this.state.chatCount}</p>
-        <div style={{width:'auto',height:'400px',overflowX : 'hidden', overflowY : 'auto'}}>
+        <div id ="messages" style={{width:'auto',height:'400px',overflowX : 'hidden', overflowY : 'auto'}}>
          {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
         </div>
