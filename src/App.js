@@ -148,8 +148,8 @@ class App extends Component {
                 <Header />
 
       <div className="container">
-        <h1 >Hello, World!</h1>
-        <p>Your account: {this.state.account}</p>
+        <h1 >Smart Messenger</h1>
+        <p>A peer-to-peer encrypted messaging service that only uses blockchain to transfer and store encrypted messages.</p>
      
         <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
@@ -167,14 +167,18 @@ class App extends Component {
 
         <p>Total chats: {this.state.messageCount}</p>
         <p>Your chats: {this.state.chatCount}</p>
+        <div style={{width:'auto',height:'400px',overflowX : 'hidden', overflowY : 'auto'}}>
+         {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
-        {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
+        </div>
 
         <input id="message" onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
-        <a onClick={this.addOne.bind(this)}>Send Message<i class="fas fa-paper-plane"></i>
-</a>
+        <button type="button" class="btn btn-primary" onClick={this.addOne.bind(this)}><i class="fas fa-paper-plane"></i></button>
+
+     
         <br/>
-        <a onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"></i>Refresh</a>
+        <button type="button" class="btn btn-success" onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"/>Refresh chat</button>
+
 
        
       </div>
