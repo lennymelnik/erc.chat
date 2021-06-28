@@ -164,13 +164,16 @@ class App extends Component {
          {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
         </div>
+        <div class="row g-2">
 
-        <input id="message" onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
+  <textarea class="form-control" id="message" rows="3" onChange={(e)=>{this.setState({toSend : e.target.value})}} placeholder="Aa"></textarea>
+
         <button type="button" class="btn btn-primary" onClick={this.addOne.bind(this)}><i class="fas fa-paper-plane"></i></button>
+        <button type="button" class="btn btn-success" onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"/>Refresh chat</button>
 
+</div>
      
         <br/>
-        <button type="button" class="btn btn-success" onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"/>Refresh chat</button>
 
 
        
