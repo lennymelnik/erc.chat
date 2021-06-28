@@ -25,7 +25,7 @@ contract Messages {
       //first see how many messages are in the chat
     
         for (uint i = 0; i < messageCount; i++) {
-          Message memory thisChat = messagesArray[i];
+          Message storage thisChat = messagesArray[i];
           if(keccak256(abi.encodePacked(thisChat.hashToken)) ==keccak256(abi.encodePacked( _hashToken))){
               thisChatCount ++;
           }
@@ -42,7 +42,7 @@ contract Messages {
       //first see how many messages are in the chat
     
         for (uint i = 0; i < messageCount; i++) {
-          Message memory thisChat = messagesArray[i];
+          Message storage thisChat = messagesArray[i];
           if(keccak256(abi.encodePacked(thisChat.hashToken)) ==keccak256(abi.encodePacked( _hashToken))){
               chatArray[thisChatCount] = (thisChat);
               thisChatCount ++;

@@ -17,6 +17,9 @@ class App extends Component {
     this.setState({ messageList })
     console.log("HELLO", messageList.methods)
     const messageCount = await messageList.methods.messageCount().call()
+    const chatCount = await messageList.methods.getChatLength(this.state.chatHash).call()
+    console.log("Chat length", chatCount)
+
     this.setState({ messageCount })
     if(this.state.chatHash != ''){
       console.log("Chat hash", this.state.chatHash)

@@ -1,6 +1,6 @@
 
 
-export const MESSAGES_ADDRESS = '0xc30391dB08AF429Ab2D5750578f9A6D4F9D40076'
+export const MESSAGES_ADDRESS = '0xd424067Ed92f812d2f6FE286a819b098dAc8616d'
 export const MESSAGES_ABI = [
     {
       "constant": true,
@@ -127,6 +127,27 @@ export const MESSAGES_ABI = [
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_hashToken",
+          "type": "string"
+        }
+      ],
+      "name": "getChatLength",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
