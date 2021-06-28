@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import { TODO_LIST_ABI, TODO_LIST_ADDRESS } from './config'
+
 
 function App() {
   return (

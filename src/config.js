@@ -1,7 +1,7 @@
 
 
-export const TODO_LIST_ADDRESS = '0x98e8d3eedE9d5e3b3397D38284938a39Ded9EFBA'
-export const TODO_LIST_ABI = [
+export const MESSAGES_ADDRESS = '0x98e8d3eedE9d5e3b3397D38284938a39Ded9EFBA'
+export const MESSAGES_ABI = [
     {
       "constant": true,
       "inputs": [],
