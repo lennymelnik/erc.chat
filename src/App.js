@@ -4,7 +4,7 @@ import Web3 from 'web3'
 import './App.css'
 import { MESSAGES_ABI, MESSAGES_ADDRESS } from './config'
 import Messages from './Components/Messages'
-
+import Header from './Components/Header'
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
@@ -144,13 +144,26 @@ class App extends Component {
 
   render() {
     return (
+      <div>
+                <Header />
+
       <div className="container">
         <h1 >Hello, World!</h1>
         <p>Your account: {this.state.account}</p>
-        <a> Encrypt with: <input onChange={(e)=>{this.setState({encryption : e.target.value})}}></input></a>
-
-        <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
-        <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
+     
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+        <input type="text" class="form-control" placeholder="Encryption Key" aria-label="Encryption Key" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({encryption : e.target.value})}}/>
+        </div>
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="text" class="form-control" placeholder="Your username" aria-label="Your username" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}/>
+        </div>
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="text" class="form-control" placeholder="Target username" aria-label="Target username" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}/>
+        </div>
+    
 
         <p>Total chats: {this.state.messageCount}</p>
         <p>Your chats: {this.state.chatCount}</p>
@@ -158,12 +171,15 @@ class App extends Component {
         {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
         <input id="message" onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
-        <a onClick={this.addOne.bind(this)}>Send Message</a>
+        <a onClick={this.addOne.bind(this)}>Send Message<i class="fas fa-paper-plane"></i>
+</a>
         <br/>
-        <a onClick={this.loadBlockchainData.bind(this)}>Refresh</a>
+        <a onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"></i>Refresh</a>
 
        
       </div>
+      </div>
+
     );
   }
 }
