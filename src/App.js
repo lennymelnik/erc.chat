@@ -71,25 +71,18 @@ class App extends Component {
       var hashCode = [this.state.user,this.state.targetUser]
       hashCode.sort()
       hashCode = hashCode[0] + hashCode[1]
-      console.log(hashCode)
 
       //hashCode.sort()
-      console.log("Chat hash", hashCode)
       const messages = await messageList.methods.getMessages(hashCode).call()
-      console.log('Messages', messages)
       var encrypted_messages = messages[2]
       var decrypted_messages = []
       for(var i = 0; i< encrypted_messages.length;i++){
-        console.log(encrypted_messages[i])
-        console.log("encrpted",encrypted_messages[i])
-        var decrpted = await decrypt(this.state.encryption, encrypted_messages[i])
+           var decrpted = await decrypt(this.state.encryption, encrypted_messages[i])
         decrypted_messages.push(decrpted)
-        console.log("decrypted",decrypt(this.state.encryption, encrypted_messages[i]))
       //  encrypted_messages[2][i] = 
 
         //encrypted_messages['2'][i] = decrypt(this.state.encryption, messages['2'][i])
       }
-      console.log(decrypted_messages)
       var finalData = {
         0 : messages['0'],
         1 : messages['1'],
@@ -97,7 +90,7 @@ class App extends Component {
         3 : messages['3']
       }
 
-
+      this.setState({ chatCount : decrypted_messages.length })
       this.setState({ messages: finalData })
       var objDiv = document.getElementById("messages");
       objDiv.scrollTop = objDiv.scrollHeight;
