@@ -38,29 +38,34 @@ contract Messages {
   function getMessages(string memory _hashToken)public view returns( string[] memory, string[] memory, string[] memory,uint[] memory){
       uint thisChatCount = 0;
       
-      Message[] memory chatArray;
+       uint tempChatCount = 0;
       //first see how many messages are in the chat
     
         for (uint i = 0; i < messageCount; i++) {
           Message storage thisChat = messagesArray[i];
           if(keccak256(abi.encodePacked(thisChat.hashToken)) ==keccak256(abi.encodePacked( _hashToken))){
-              chatArray[thisChatCount] = (thisChat);
-              thisChatCount ++;
+              tempChatCount ++;
           }
           
          
       }
-      string[]    memory sentFrom = new string[](thisChatCount);
-      string[]  memory sentTo = new string[](thisChatCount);
-      string[]    memory content = new string[](thisChatCount);
-      uint[]    memory id = new uint[](thisChatCount);
-      for (uint i = 0; i < thisChatCount; i++) {
-          Message memory thisChat = chatArray[i];
-       
-            sentFrom[i] = thisChat.sentFrom;
-            sentTo[i] = thisChat.sentTo;
-            content[i] = thisChat.content;
-            id[i] = thisChat.id;
+      string[] memory sentFrom = new string[](tempChatCount);
+      string[] memory sentTo = new string[](tempChatCount);
+      string[] memory content = new string[](tempChatCount);
+      uint[] memory id = new uint[](tempChatCount);
+      
+      for (uint i = 0; i < messageCount; i++) {
+          Message storage thisChat = messagesArray[i];
+           if(keccak256(abi.encodePacked(thisChat.hashToken)) ==keccak256(abi.encodePacked( _hashToken))){
+             
+            sentFrom[thisChatCount] = thisChat.sentFrom;
+                sentTo[thisChatCount] = thisChat.sentTo;
+                content[thisChatCount] = thisChat.content;
+                id[thisChatCount] = thisChat.id;
+              thisChatCount ++;
+          }
+           
+           
           
           
          

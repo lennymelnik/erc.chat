@@ -23,16 +23,19 @@ class App extends Component {
 
     this.setState({ messageCount })
     if(this.state.chatHash != ''){
-      console.log("Chat hash", this.state.chatHash)
-      const messages = await messageList.methods.getMessages("adwaddwdw").call()
-      console.log('Messages', messages)
-   
+      var hashCode = [this.state.user,this.state.targetUser]
+      hashCode.sort()
+      hashCode = hashCode[0] + hashCode[1]
+      console.log(hashCode)
 
-    
-    this.setState({ messages })
-  
-    console.log("messages", messages)
-    console.log("messageCount ", messageCount)
+      //hashCode.sort()
+      console.log("Chat hash", hashCode)
+      const messages = await messageList.methods.getMessages(hashCode).call()
+      console.log('Messages', messages)
+
+      this.setState({ messages })
+      console.log("messages", messages)
+      console.log("messageCount ", messageCount)
     }
     
 
@@ -46,8 +49,10 @@ class App extends Component {
   }
  
  async addOne() {
- 
-    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend, this.state.chatHash).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
+  var hashCode = [this.state.user,this.state.targetUser]
+  hashCode.sort()
+  hashCode = hashCode[0] + hashCode[1]
+    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
       this.loadBlockchainData()
       console.log(receipt)
       
