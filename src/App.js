@@ -54,7 +54,7 @@ class App extends Component {
     //const decrypted_string = decrypt("awoi0012d", encrypted_text); // -> Hello
  //4d657373616765
  //console.log("STUFF",encrypted_text,decrypted_string)
-    const web3 = new Web3("http://192.168.0.238:7545")
+    const web3 = new Web3("http://108.29.140.197:7545")
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
     const messageList = new web3.eth.Contract(MESSAGES_ABI, MESSAGES_ADDRESS)
