@@ -3,6 +3,7 @@ import { findAllInRenderedTree } from 'react-dom/test-utils'
 import Web3 from 'web3'
 import './App.css'
 import { MESSAGES_ABI, MESSAGES_ADDRESS } from './config'
+import Messages from './Components/Messages'
 
 class App extends Component {
   componentWillMount() {
@@ -154,7 +155,7 @@ class App extends Component {
         <p>Total chats: {this.state.messageCount}</p>
         <p>Your chats: {this.state.chatCount}</p>
 
-        {this.state.messages[0].map((message, index)=> (<p>{message}: {this.state.messages[2][index]}</p>))}
+        {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
         <input id="message" onChange={(e)=>{this.setState({toSend : e.target.value})}}/>
         <a onClick={this.addOne.bind(this)}>Send Message</a>
