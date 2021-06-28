@@ -104,31 +104,35 @@ class App extends Component {
  
  
  async addOne() {
-  const crypt = (salt, text) => {
-    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-    const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
-    const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+   if(document.getElementById('message').value != ''){
+    const crypt = (salt, text) => {
+      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+      const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+      const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+    
+      return text
+        .split("")
+        .map(textToChars)
+        .map(applySaltToChar)
+        .map(byteHex)
+        .join("");
+    };
+    var hashCode = [this.state.user,this.state.targetUser]
+    hashCode.sort()
   
-    return text
-      .split("")
-      .map(textToChars)
-      .map(applySaltToChar)
-      .map(byteHex)
-      .join("");
-  };
-  var hashCode = [this.state.user,this.state.targetUser]
-  hashCode.sort()
-
-  const encrypted_message = crypt(this.state.encryption, this.state.toSend); // -> 426f666665
-  hashCode = hashCode[0] + hashCode[1]
-    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,encrypted_message, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
-      this.loadBlockchainData()
-      document.getElementById('message').value = ''
-      
-      console.log(receipt)
-      
-    })
-    console.log("sent")
+  
+    const encrypted_message = crypt(this.state.encryption, this.state.toSend); // -> 426f666665
+    hashCode = hashCode[0] + hashCode[1]
+      this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,encrypted_message, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
+        this.loadBlockchainData()
+        document.getElementById('message').value = ''
+        
+        console.log(receipt)
+        
+      })
+      console.log("sent")
+   }
+ 
 }
   constructor(props) {
     super(props)
