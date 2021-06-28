@@ -141,7 +141,7 @@ class App extends Component {
                 <Header />
 
       <div className="container">
-        <h1 >Smart Messenger</h1>
+        <h1 >erc.Chat</h1>
         <p>A peer-to-peer encrypted messaging service that only uses blockchain to transfer and store encrypted messages.</p>
      
         <div class="input-group mb-3">
