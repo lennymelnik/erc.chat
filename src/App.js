@@ -12,8 +12,47 @@ class App extends Component {
    
   }
   
-
+  async decrypt (salt, encoded){
+    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+    const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+    return encoded
+      .match(/.{1,2}/g)
+      .map((hex) => parseInt(hex, 16))
+      .map(applySaltToChar)
+      .map((charCode) => String.fromCharCode(charCode))
+      .join("");
+  };
   async loadBlockchainData() {
+    const crypt = (salt, text) => {
+      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+      const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+      const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+    
+      return text
+        .split("")
+        .map(textToChars)
+        .map(applySaltToChar)
+        .map(byteHex)
+        .join("");
+    };
+    
+    const decrypt = (salt, encoded) => {
+      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+      const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+
+      return encoded
+        .match(/.{1,2}/g)
+        .map((hex) => parseInt(hex, 16))
+        .map(applySaltToChar)
+        .map((charCode) => String.fromCharCode(charCode))
+        .join("");
+    };
+
+
+    // decrypting
+    //const decrypted_string = decrypt("awoi0012d", encrypted_text); // -> Hello
+ //4d657373616765
+ //console.log("STUFF",encrypted_text,decrypted_string)
     const web3 = new Web3("http://192.168.0.238:7545")
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
@@ -37,8 +76,28 @@ class App extends Component {
       console.log("Chat hash", hashCode)
       const messages = await messageList.methods.getMessages(hashCode).call()
       console.log('Messages', messages)
+      var encrypted_messages = messages[2]
+      var decrypted_messages = []
+      for(var i = 0; i< encrypted_messages.length;i++){
+        console.log(encrypted_messages[i])
+        console.log("encrpted",encrypted_messages[i])
+        var decrpted = await decrypt(this.state.encryption, encrypted_messages[i])
+        decrypted_messages.push(decrpted)
+        console.log("decrypted",decrypt(this.state.encryption, encrypted_messages[i]))
+      //  encrypted_messages[2][i] = 
 
-      this.setState({ messages })
+        //encrypted_messages['2'][i] = decrypt(this.state.encryption, messages['2'][i])
+      }
+      console.log(decrypted_messages)
+      var finalData = {
+        0 : messages['0'],
+        1 : messages['1'],
+        2 : decrypted_messages,
+        3 : messages['3']
+      }
+
+
+      this.setState({ messages: finalData })
       console.log("messages", messages)
       console.log("messageCount ", messageCount)
     }
@@ -50,10 +109,24 @@ class App extends Component {
  
  
  async addOne() {
+  const crypt = (salt, text) => {
+    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+    const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+    const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+  
+    return text
+      .split("")
+      .map(textToChars)
+      .map(applySaltToChar)
+      .map(byteHex)
+      .join("");
+  };
   var hashCode = [this.state.user,this.state.targetUser]
   hashCode.sort()
+
+  const encrypted_message = crypt(this.state.encryption, this.state.toSend); // -> 426f666665
   hashCode = hashCode[0] + hashCode[1]
-    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
+    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,encrypted_message, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
       this.loadBlockchainData()
       alert("Message sent")
       document.getElementById('message').value = ''
@@ -73,6 +146,8 @@ class App extends Component {
       <div className="container">
         <h1 >Hello, World!</h1>
         <p>Your account: {this.state.account}</p>
+        <a> Encrypt with: <input onChange={(e)=>{this.setState({encryption : e.target.value})}}></input></a>
+
         <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
         <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
 
