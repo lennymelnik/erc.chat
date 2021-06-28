@@ -19,6 +19,7 @@ class App extends Component {
     const messageCount = await messageList.methods.messageCount().call()
     const chatCount = await messageList.methods.getChatLength(this.state.chatHash).call()
     console.log("Chat length", chatCount)
+    this.setState({ chatCount })
 
     this.setState({ messageCount })
     if(this.state.chatHash != ''){
@@ -66,7 +67,9 @@ class App extends Component {
         <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
         <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}></input></a>
        
-        <p>Amount: {this.state.messageCount}</p>
+        <p>Total chats: {this.state.messageCount}</p>
+        <p>Your chats: {this.state.chatCount}</p>
+
         {this.state.messages[0].map((message, index)=> (<p>{message}: {this.state.messages[2][index]}</p>))}
 
         <input onChange={(e)=>{this.setState({toSend : e.target.value})}}/>

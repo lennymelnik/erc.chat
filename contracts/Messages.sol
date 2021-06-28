@@ -53,9 +53,8 @@ contract Messages {
       string[]    memory sentFrom = new string[](thisChatCount);
       string[]  memory sentTo = new string[](thisChatCount);
       string[]    memory content = new string[](thisChatCount);
-        
-      uint[]    memory id = new uint[](messageCount);
-      for (uint i = 0; i < messageCount; i++) {
+      uint[]    memory id = new uint[](thisChatCount);
+      for (uint i = 0; i < thisChatCount; i++) {
           Message memory thisChat = chatArray[i];
        
             sentFrom[i] = thisChat.sentFrom;
