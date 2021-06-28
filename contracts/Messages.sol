@@ -14,7 +14,7 @@ contract Messages {
 
   mapping(uint => Message) public messages;
 
-  function createMessage(string memory _content, string memory _sentFrom,string memory _sentTo) public {
+  function createMessage(string memory _sentFrom,string memory _sentTo, string memory _content ) public {
     
     messagesArray.push(Message(_sentFrom,_sentTo, _content, messageCount));
     messageCount ++;

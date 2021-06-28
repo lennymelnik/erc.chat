@@ -48,7 +48,7 @@ class App extends Component {
   }
  async addOne() {
  
-    this.state.messageList.methods.createMessage("user1","user2",this.state.toSend).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
+    this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,this.state.toSend).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
       this.loadBlockchainData()
       console.log(receipt)
       
@@ -57,7 +57,7 @@ class App extends Component {
 }
   constructor(props) {
     super(props)
-    this.state = { account: '' , messageList : undefined, messages : {0: []}, toSend : ""}
+    this.state = { account: '' , messageList : undefined, messages : {0: []}, toSend : "", user : '', targetUser : ''}
   }
 
   render() {
@@ -65,6 +65,9 @@ class App extends Component {
       <div className="container">
         <h1 >Hello, World!</h1>
         <p>Your account: {this.state.account}</p>
+        <a> Send from<input onChange={(e)=>{this.setState({user : e.target.value})}}></input></a>
+        <a> Send to<input onChange={(e)=>{this.setState({targetUser : e.target.value})}}></input></a>
+       
         <p>Amount: {this.state.messageCount}</p>
         <a onClick={this.addOne.bind(this)}>Click Here</a>
         {this.state.messages[0].map((message, index)=> (<p>{message}: {this.state.messages[1][index]}</p>))}
