@@ -8,6 +8,7 @@ import Header from './Components/Header'
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
+    
 
 
    
@@ -61,9 +62,7 @@ class App extends Component {
     this.setState({ messageList })
     console.log("HELLO", messageList.methods)
     const messageCount = await messageList.methods.messageCount().call()
-    const chatCount = await messageList.methods.getChatLength(this.state.chatHash).call()
-    console.log("Chat length", chatCount)
-    this.setState({ chatCount })
+   
 
     this.setState({ messageCount })
     if(this.state.chatHash != ''){
@@ -98,7 +97,10 @@ class App extends Component {
     }
     //setTimeout(function(e){ console.log("E",e) /*this.loadBlockchainData()*/ }, 3000);
 
-    
+    setTimeout( () =>{
+      console.log("Refreshing");
+      this.loadBlockchainData()
+    }, 7000);
 
   }
  
@@ -126,8 +128,8 @@ class App extends Component {
       this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,encrypted_message, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
         this.loadBlockchainData()
         document.getElementById('message').value = ''
+        //this.loadBlockchainData()
         
-        console.log(receipt)
         
       })
       console.log("sent")
@@ -147,8 +149,10 @@ class App extends Component {
       <div className="container">
         <h1 >erc.Chat</h1>
         <p>A peer-to-peer encrypted messaging service that only uses blockchain to transfer and store encrypted messages.</p>
-     
-        <div class="input-group mb-3">
+        <div className="row">
+      <div className = "col">
+      <div class="input-group mb-3">
+        
         <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
         <input type="text" class="form-control" placeholder="Encryption Key" aria-label="Encryption Key" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({encryption : e.target.value})}}/>
         </div>
@@ -160,11 +164,11 @@ class App extends Component {
         <span class="input-group-text" id="basic-addon1">@</span>
         <input type="text" class="form-control" placeholder="Target username" aria-label="Target username" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}/>
         </div>
-    
-
         <p>Total chats: {this.state.messageCount}</p>
         <p>Your chats: {this.state.chatCount}</p>
-        <div id ="messages" style={{width:'auto',height:'400px',overflowX : 'hidden', overflowY : 'auto'}}>
+      </div>
+      <div className = "col-9">
+        <div id ="messages" style={{width:'auto',height:'400px',overflowX : 'hidden', overflowY : 'auto', background : '#f8f8ff'}}>
          {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
         </div>
@@ -173,9 +177,15 @@ class App extends Component {
   <textarea class="form-control" id="message" rows="3" onChange={(e)=>{this.setState({toSend : e.target.value})}} placeholder="Aa"></textarea>
 
         <button type="button" class="btn btn-primary" onClick={this.addOne.bind(this)}><i class="fas fa-paper-plane"></i></button>
-        <button type="button" class="btn btn-success" onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"/>Refresh chat</button>
+        <button id ="refresh" type="button" class="btn btn-success" onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"/>Refresh chat</button>
 
 </div>
+        </div>
+        </div>
+       
+    
+
+     
      
         <br/>
 
