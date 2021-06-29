@@ -60,7 +60,7 @@ class App extends Component {
     this.setState({ account: accounts[0] })
     const messageList = new web3.eth.Contract(MESSAGES_ABI, MESSAGES_ADDRESS)
     this.setState({ messageList })
-    console.log("HELLO", messageList.methods)
+    //console.log("HELLO", messageList.methods)
     const messageCount = await messageList.methods.messageCount().call()
    
 
