@@ -177,8 +177,8 @@ class App extends Component {
      
 <br />
       <div style={{background : '#f8f8ff'}}>
-      <p>Total chats: {this.state.messageCount}</p>
-        <p>Your chats: {this.state.chatCount}</p>
+      <p>Total chats: {this.state.messageCount} Your chats: {this.state.chatCount}</p>
+
       <div id ="messages" style={{width:'auto',height:'300px',overflowX : 'hidden', overflowY : 'auto', background : '#f8f8ff'}}>
        
 
