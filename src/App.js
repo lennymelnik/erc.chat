@@ -149,29 +149,44 @@ class App extends Component {
       <div className="container">
         <h1 >erc.Chat</h1>
         <p>A peer-to-peer encrypted messaging service that only uses blockchain to transfer and store encrypted messages.</p>
-        <div className="row">
+
       <div className = "col">
-      <div class="input-group mb-3">
-        
-        <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+      <form class="row g-4">
+  <div class="col-auto">
+    <div className = "input-group">
+    <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
         <input type="text" class="form-control" placeholder="Encryption Key" aria-label="Encryption Key" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({encryption : e.target.value})}}/>
-        </div>
-        <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">@</span>
+   
+    </div>
+   </div>
+  <div class="col-auto">
+  <div className = "input-group">
+
+  <span class="input-group-text" id="basic-addon1">@</span>
         <input type="text" class="form-control" placeholder="Your username" aria-label="Your username" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({user : e.target.value, chatHash : this.state.user +this.state.targetUser})}}/>
-        </div>
-        <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">@</span>
-        <input type="text" class="form-control" placeholder="Target username" aria-label="Target username" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}/>
-        </div>
-        <p>Total chats: {this.state.messageCount}</p>
-        <p>Your chats: {this.state.chatCount}</p>
       </div>
-      <div className = "col-9">
-        <div id ="messages" style={{width:'auto',height:'400px',overflowX : 'hidden', overflowY : 'auto', background : '#f8f8ff'}}>
+      </div>
+  <div class="col-auto">
+  <div className = "input-group">
+
+  <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="text" class="form-control" placeholder="Target username" aria-label="Target username" aria-describedby="basic-addon1" onChange={(e)=>{this.setState({targetUser : e.target.value, chatHash : this.state.user +this.state.targetUser})}}/>
+  </div>
+  </div>
+</form>     
+     
+<br />
+      <div style={{background : '#f8f8ff'}}>
+      <p>Total chats: {this.state.messageCount}</p>
+        <p>Your chats: {this.state.chatCount}</p>
+      <div id ="messages" style={{width:'auto',height:'300px',overflowX : 'hidden', overflowY : 'auto', background : '#f8f8ff'}}>
+       
+
          {this.state.messages[0].map((message, index)=> (<Messages message = {message} index= {index} messages = {this.state.messages} />))}
 
         </div>
+      </div>
+        
         <div class="row g-2">
 
   <textarea class="form-control" id="message" rows="3" onChange={(e)=>{this.setState({toSend : e.target.value})}} placeholder="Aa"></textarea>
@@ -180,7 +195,7 @@ class App extends Component {
         <button id ="refresh" type="button" class="btn btn-success" onClick={this.loadBlockchainData.bind(this)}><i class="fas fa-sync"/>Refresh chat</button>
 
 </div>
-        </div>
+      
         </div>
        
     
