@@ -146,12 +146,13 @@ class App extends Component {
     return (
 
       <BrowserRouter>
+      <Header />
 
      <Switch>
    <Route exact path="/" >
    
       <div>
-                <Header />
+                
 
       <div className="container">
         <h1 >erc.Chat</h1>
