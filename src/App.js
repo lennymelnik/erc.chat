@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { findAllInRenderedTree } from 'react-dom/test-utils'
 import Web3 from 'web3'
-import './App.css'
 import { MESSAGES_ABI, MESSAGES_ADDRESS } from './config'
 import Messages from './Components/Messages'
 import Header from './Components/Header'
+import { BrowserRouter, Route, Switch, useLocation} from 'react-router-dom';
+
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
@@ -143,6 +144,12 @@ class App extends Component {
 
   render() {
     return (
+
+      <BrowserRouter>
+
+     <Switch>
+   <Route exact path="/" >
+   
       <div>
                 <Header />
 
@@ -208,6 +215,12 @@ class App extends Component {
        
       </div>
       </div>
+      </Route>
+      <Route path = "/about">
+        <h1>This is the about page</h1>
+      </ Route >
+      </ Switch >
+      </BrowserRouter>
 
     );
   }
