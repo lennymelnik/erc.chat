@@ -6,6 +6,7 @@ import Messages from './Components/Messages'
 import Header from './Components/Header'
 import { BrowserRouter, Route, Switch, useLocation} from 'react-router-dom';
 import About from './Containers/About'
+import GetStarted from './Containers/GetStarted'
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
@@ -217,6 +218,9 @@ class App extends Component {
       </div>
       </div>
       </Route>
+      <Route path = "/getstarted">
+        <GetStarted />
+      </ Route >
       <Route path = "/about">
         <About />
       </ Route >
