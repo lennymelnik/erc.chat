@@ -5,7 +5,7 @@ import { MESSAGES_ABI, MESSAGES_ADDRESS } from './config'
 import Messages from './Components/Messages'
 import Header from './Components/Header'
 import { BrowserRouter, Route, Switch, useLocation} from 'react-router-dom';
-
+import About from './Containers/About'
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
@@ -155,7 +155,7 @@ class App extends Component {
                 
 
       <div className="container">
-        <h1 >erc.Chat</h1>
+        <h1>erc.Chat</h1>
         <p>A peer-to-peer encrypted messaging service that only uses blockchain to transfer and store encrypted messages.</p>
 
       <div className = "col">
@@ -218,7 +218,7 @@ class App extends Component {
       </div>
       </Route>
       <Route path = "/about">
-        <h1>This is the about page</h1>
+        <About />
       </ Route >
       </ Switch >
       </BrowserRouter>
