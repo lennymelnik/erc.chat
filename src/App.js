@@ -84,12 +84,12 @@ class App extends Component {
 
     }
     //setTimeout(function(e){ console.log("E",e) /*this.loadBlockchainData()*/ }, 3000);
-/*
+
     setTimeout( () =>{
       console.log("Refreshing");
       this.loadBlockchainData()
     }, 7000);
-*/
+
   }
  
  
