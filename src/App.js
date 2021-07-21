@@ -7,6 +7,7 @@ import Header from './Components/Header'
 import { BrowserRouter, Route, Switch, useLocation} from 'react-router-dom';
 import About from './Containers/About'
 import GetStarted from './Containers/GetStarted'
+import Cryptr from 'cryptr'
 class App extends Component {
   componentWillMount() {
     this.loadBlockchainData()
@@ -27,30 +28,8 @@ class App extends Component {
       .join("");
   };
   async loadBlockchainData() {
-    const crypt = (salt, text) => {
-      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-      const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
-      const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
     
-      return text
-        .split("")
-        .map(textToChars)
-        .map(applySaltToChar)
-        .map(byteHex)
-        .join("");
-    };
-    
-    const decrypt = (salt, encoded) => {
-      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-      const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
 
-      return encoded
-        .match(/.{1,2}/g)
-        .map((hex) => parseInt(hex, 16))
-        .map(applySaltToChar)
-        .map((charCode) => String.fromCharCode(charCode))
-        .join("");
-    };
 
 
     // decrypting
@@ -64,8 +43,8 @@ class App extends Component {
     this.setState({ messageList })
     //console.log("HELLO", messageList.methods)
     const messageCount = await messageList.methods.messageCount().call()
-   
-
+    //var hashed = await bcrypt.hash('HELLO', this.state.encryption)
+    //console.log('BYCRPT', bcrypt, hashed)
     this.setState({ messageCount })
     if(this.state.chatHash != ''){
       
@@ -77,9 +56,16 @@ class App extends Component {
       const messages = await messageList.methods.getMessages(hashCode).call()
       var encrypted_messages = messages[2]
       var decrypted_messages = []
+
       for(var i = 0; i< encrypted_messages.length;i++){
-           var decrpted = await decrypt(this.state.encryption, encrypted_messages[i])
-        decrypted_messages.push(decrpted)
+           //console.log("trying",cryptr.decrypt(encrypted_messages[i]))
+          //console.log('testing new encrpytion',
+          console.log('Message',encrypted_messages[i])
+
+           var decrypted = window.CryptoJS.AES.decrypt(encrypted_messages[i], this.state.encryption).toString(window.CryptoJS.enc.Utf8);//cryptr.decrypt(encrypted_messages[i])
+           console.log('Decrypted',decrypted)
+           // await decrypt(this.state.encryption, encrypted_messages[i])
+        decrypted_messages.push(decrypted)
       //  encrypted_messages[2][i] = 
 
         //encrypted_messages['2'][i] = decrypt(this.state.encryption, messages['2'][i])
@@ -98,34 +84,30 @@ class App extends Component {
 
     }
     //setTimeout(function(e){ console.log("E",e) /*this.loadBlockchainData()*/ }, 3000);
-
+/*
     setTimeout( () =>{
       console.log("Refreshing");
       this.loadBlockchainData()
     }, 7000);
-
+*/
   }
  
  
  async addOne() {
    if(document.getElementById('message').value != ''){
-    const crypt = (salt, text) => {
-      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-      const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
-      const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
-    
-      return text
-        .split("")
-        .map(textToChars)
-        .map(applySaltToChar)
-        .map(byteHex)
-        .join("");
-    };
+
     var hashCode = [this.state.user,this.state.targetUser]
     hashCode.sort()
-  
-  
-    const encrypted_message = crypt(this.state.encryption, this.state.toSend); // -> 426f666665
+    const cryptr = new Cryptr(this.state.encryption);
+
+    
+
+    //var encrypted_message = cryptr.encrypt(this.state.toSend)
+    var encrypted_message = window.CryptoJS.AES.encrypt(this.state.toSend, this.state.encryption).toString();
+
+    console.log('Encrypting message', this.state.toSend, encrypted_message)
+
+    //const encrypted_message = crypt(this.state.encryption, this.state.toSend); // -> 426f666665
     hashCode = hashCode[0] + hashCode[1]
       this.state.messageList.methods.createMessage(this.state.user, this.state.targetUser,encrypted_message, hashCode).send({from: this.state.account, gas:3000000}).once('receipt', async (receipt) => {
         this.loadBlockchainData()
